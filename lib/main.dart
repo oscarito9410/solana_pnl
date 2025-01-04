@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:metaballs/metaballs.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,13 +14,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-          useMaterial3: true,
-        ),
-        darkTheme: ThemeData(
-          useMaterial3: true,
-          brightness: Brightness.dark,
-        ),
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.green), useMaterial3: true, fontFamily: 'Pixelify'),
+        darkTheme: ThemeData(useMaterial3: true, brightness: Brightness.dark, fontFamily: 'Pixelify'),
         themeMode: ThemeMode.dark,
         home: const DemoPage());
   }
@@ -62,13 +58,37 @@ class _DemoPageState extends State<DemoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        body: Metaballs(
+      color: const Color.fromARGB(255, 66, 133, 244),
+      effect: MetaballsEffect.follow(
+        growthFactor: 1,
+        smoothing: 1,
+        radius: 0.5,
+      ),
+      gradient: LinearGradient(colors: [
+        const Color.fromARGB(255, 60, 255, 210),
+        const Color.fromARGB(255, 8, 245, 156),
+      ], begin: Alignment.bottomRight, end: Alignment.topLeft),
+      metaballs: 40,
+      animationDuration: const Duration(milliseconds: 200),
+      speedMultiplier: 1,
+      bounceStiffness: 3,
+      minBallRadius: 15,
+      maxBallRadius: 40,
+      glowRadius: 0.7,
+      glowIntensity: 0.6,
+      child: Padding(
+        padding: const EdgeInsets.all(25.0),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const GifDisplay(),
+              Text(
+                  "2024 through the PF trenches",
+                style: TextStyle(
+                  fontSize: 30
+                ),
+              ),
               const SizedBox(height: 20),
               InputField(onChanged: _updateInputCode),
               const SizedBox(height: 20),
@@ -77,7 +97,7 @@ class _DemoPageState extends State<DemoPage> {
           ),
         ),
       ),
-    );
+    ));
   }
 }
 
@@ -87,8 +107,7 @@ class InputField extends StatelessWidget {
   const InputField({super.key, required this.onChanged});
 
   @override
-  Widget build(BuildContext context) {
-    return TextField(
+  Widget build(BuildContext context) => TextField(
       decoration: InputDecoration(
         filled: true,
         hintText: 'Enter Your Wallet Address',
@@ -99,7 +118,6 @@ class InputField extends StatelessWidget {
       ),
       onChanged: onChanged,
     );
-  }
 }
 
 class ActionButton extends StatelessWidget {
@@ -111,7 +129,6 @@ class ActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        // Example action based on the input code
         if (inputCode.isNotEmpty) {
           showDialog(
             context: context,
@@ -121,22 +138,29 @@ class ActionButton extends StatelessWidget {
           );
         }
       },
-      child: const Text('LOOK BACK'),
+      child: const Text('REVIEW', style: TextStyle(
+        fontFamily: 'Pixelify'
+      ),),
       style: ElevatedButton.styleFrom(
         primary: Colors.green,
         onPrimary: Colors.white,
+        padding: EdgeInsets.symmetric(horizontal: 32, vertical: 20), // Increase padding for a larger touch area
+        textStyle: TextStyle(fontSize: 18), // Larger text size
+        minimumSize: Size(200, 60), // Minimum size of the button
       ),
     );
   }
 }
+
 
 class GifDisplay extends StatelessWidget {
   const GifDisplay({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(
-      'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExN2FkZGQ4Y3g1Z3V6dzhsbGEzaXgwajlseWhyZzl5MnhxbjB2cTYyeCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/LoJpTeM32MsES2BQAv/giphy.webp', // Replace with your actual GIF URL
+    return Image.network(''
+        'https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExem5nZ3hxd3dsNzA3cHZ6c3FseWZ1azd3ZGpnYXhkNHR4Y3F1M2psOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/67ThRZlYBvibtdF9JH/giphy.webp',
+      // Replace with your actual GIF URL
       height: 250, // You can adjust the size as needed
       fit: BoxFit.cover, // This ensures the entire GIF is visible within the bounds
     );
