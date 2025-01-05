@@ -89,7 +89,7 @@ class InputField extends StatelessWidget {
   Widget build(BuildContext context) => TextField(
         decoration: InputDecoration(
           filled: true,
-          hintText: 'Enter Your Wallet Address',
+          hintText: 'Paste your wallet address here',
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide.none,
