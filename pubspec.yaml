@@ -32,6 +32,8 @@ dependencies:
     sdk: flutter
   metaballs: ^1.4.2
   story_view: ^0.16.5
+  http: ^0.13.3
+
 
 
   # The following adds the Cupertino Icons font to your application.

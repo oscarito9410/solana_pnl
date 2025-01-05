@@ -16,19 +16,19 @@ class _StoryPageState extends State<StoryPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 300,
+        height: 500,
         child: StoryView(controller: controller, storyItems: [
           StoryItem.text(
               title:
                   "Hello world!\nHave a look at some great Ghanaian delicacies. I'm sorry if your mouth waters. \n\nTap!",
               backgroundColor: Colors.green,
               roundedTop: true,
-              textStyle: TextStyle(fontFamily: pixelifyFont)),
+              textStyle: const TextStyle(fontFamily: pixelifyFont)),
           StoryItem.text(
               title: "Hello 2",
               backgroundColor: Colors.green,
               roundedTop: true,
-              textStyle: TextStyle(fontFamily: 'Pixelify'))
+              textStyle: const TextStyle(fontFamily: pixelifyFont))
         ]));
   }
 }

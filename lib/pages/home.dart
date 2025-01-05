@@ -19,6 +19,19 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void _buttonPressed() {
+    if (_inputCode.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please enter a wallet address.")),
+      );
+      return;
+    }
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const StoryPage()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +84,7 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 20),
               InputField(onChanged: _updateInputCode),
               const SizedBox(height: 20),
-              ActionButton(inputCode: _inputCode),
+              ActionButton(onButtonPressed: _buttonPressed),
             ],
           ),
         ),
@@ -100,30 +113,20 @@ class InputField extends StatelessWidget {
 }
 
 class ActionButton extends StatelessWidget {
-  final String inputCode;
+  final Function() onButtonPressed;
 
-  const ActionButton({super.key, required this.inputCode});
+  const ActionButton({super.key, required this.onButtonPressed});
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
-        if (inputCode.isNotEmpty) {
-          // Navigate to the StoryPage when the button is pressed
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const StoryPage()),
-          );
-        }
-      },
+      onPressed: () => onButtonPressed(),
       style: ElevatedButton.styleFrom(
         primary: Colors.green,
         onPrimary: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
-        // Increase padding for a larger touch area
         textStyle: const TextStyle(fontSize: 18),
-        // Larger text size
-        minimumSize: const Size(200, 60), // Minimum size of the button
+        minimumSize: const Size(200, 60),
       ),
       child: const Text(
         'REVIEW',
