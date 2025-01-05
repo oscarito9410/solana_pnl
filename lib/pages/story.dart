@@ -158,7 +158,7 @@ class PnLWrappedSlide extends StatelessWidget {
           pnlAmountDisplay,
           style: TextStyle(
             color: textColor,
-            fontSize: 24,
+            fontSize: 36,
           ),
         ),
         const SizedBox(height: 20),
