@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:metaballs/metaballs.dart';
 import 'package:solana_pnl/contants.dart';
+import 'package:solana_pnl/network/wallet_data.dart';
 import 'package:solana_pnl/network/wallet_service.dart';
 import 'package:solana_pnl/pages/story.dart';
 
@@ -29,11 +30,11 @@ class _HomePageState extends State<HomePage> {
     }
 
     var service = WalletService();
-    bool success = await service.fetchProfits(_inputCode);
-    if (success) {
+    WalletResponse? response = await service.fetchProfits(_inputCode);
+    if (response != null) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const StoryPage()),
+        MaterialPageRoute(builder: (context) =>  StoryPage(walletData: response.data! )),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

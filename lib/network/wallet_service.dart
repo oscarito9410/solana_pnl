@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
+import 'package:solana_pnl/network/wallet_data.dart';
 
 class WalletService {
   static const String _baseUrl = 'https://api-wallet-z0f9.onrender.com/Wallet/GetProfits';
 
-  Future<bool> fetchProfits(String walletAddress) async {
+  Future<WalletResponse?> fetchProfits(String walletAddress) async {
     try {
       // Build the URL with the wallet address as a query parameter
       var url = Uri.parse(_baseUrl).replace(queryParameters: {'address': walletAddress});
@@ -12,15 +15,15 @@ class WalletService {
       var response = await http.get(url);
 
       if (response.statusCode == 200) {
-        // You can also process the response data here if needed
-        return true;
+        var jsonResponse = jsonDecode(response.body);
+        return WalletResponse.fromJson(jsonResponse);
       } else {
         print('Failed to fetch data: ${response.body}');
-        return false;
+        return null;
       }
     } catch (e) {
       print('An error occurred: $e');
-      return false;
+      return null;
     }
   }
 }
