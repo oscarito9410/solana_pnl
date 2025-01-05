@@ -49,7 +49,24 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               const Text(
                 "2024 through the PF trenches",
-                style: TextStyle(fontSize: 30),
+                style: TextStyle(fontSize: 40, shadows: [
+                  Shadow(
+                      // bottomLeft
+                      offset: Offset(-1.5, -1.5),
+                      color: Colors.black),
+                  Shadow(
+                      // bottomRight
+                      offset: Offset(1.5, -1.5),
+                      color: Colors.black),
+                  Shadow(
+                      // topRight
+                      offset: Offset(1.5, 1.5),
+                      color: Colors.black),
+                  Shadow(
+                      // topLeft
+                      offset: Offset(-1.5, 1.5),
+                      color: Colors.black)
+                ]),
               ),
               const SizedBox(height: 20),
               InputField(onChanged: _updateInputCode),
