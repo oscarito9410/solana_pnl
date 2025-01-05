@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:metaballs/metaballs.dart';
 import 'package:solana_pnl/contants.dart';
+import 'package:solana_pnl/network/wallet_service.dart';
 import 'package:solana_pnl/pages/story.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,17 +20,26 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void _buttonPressed() {
+  void _buttonPressed() async {
     if (_inputCode.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Please enter a wallet address.")),
       );
       return;
     }
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const StoryPage()),
-    );
+
+    var service = WalletService();
+    bool success = await service.fetchProfits(_inputCode);
+    if (success) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const StoryPage()),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Failed to fetch wallet profits")),
+      );
+    }
   }
 
   @override
