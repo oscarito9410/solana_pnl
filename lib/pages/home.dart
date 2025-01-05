@@ -133,8 +133,6 @@ class ActionButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: () => onButtonPressed(),
       style: ElevatedButton.styleFrom(
-        primary: Colors.green,
-        onPrimary: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
         textStyle: const TextStyle(fontSize: 18),
         minimumSize: const Size(200, 60),

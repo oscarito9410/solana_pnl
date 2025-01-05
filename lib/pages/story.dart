@@ -118,7 +118,7 @@ class PnLWrappedSlide extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Your PnL over the last year',
+          'Your PnL over the last month',
           style: TextStyle(
             color: Colors.white,
             fontSize: 18,
@@ -169,7 +169,7 @@ class _StoryPageState extends State<StoryPage> {
                   widget: WinRateGifDisplay(winRate: widget.walletData.winrate! * 100), backgroundColor: Colors.black),
               _storyItemInline(
                   widget: PnLWrappedSlide(
-                    pnlPercent: widget.walletData.pnl30d! * 100,
+                    pnlPercent: widget.walletData.pnl30d! * 100 ,
                     pnlAmount: widget.walletData.totalProfit!, // Appropriately humorous or motivational text
                   ),
                   backgroundColor: Colors.black),
