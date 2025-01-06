@@ -61,7 +61,7 @@ class TokenDisplay extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
-                color: double.parse(profit) > 0
+                color: double.parse(profit) >= 0
                     ? Colors.green
                     : Colors.red, // Positive change in green
               ),
