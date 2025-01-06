@@ -11,8 +11,7 @@ class StoryPage extends StatefulWidget {
   final WalletData walletData;
   final List<Holding> holdings;
 
-  const StoryPage(
-      {super.key, required this.walletData, required this.holdings});
+  const StoryPage({super.key, required this.walletData, required this.holdings});
 
   @override
   State<StoryPage> createState() => _StoryPageState();
@@ -186,6 +185,28 @@ class TokenList extends StatelessWidget {
 
   const TokenList({super.key, required this.holdings});
 
+  String? cleanImageUrl(String url) {
+    // Try to find the index of '.png' or '.jpg'
+    int pngIndex = url.indexOf('.png');
+    int jpgIndex = url.indexOf('.jpg');
+
+    // Determine which index is valid and should be used
+    int endIndex;
+    if (pngIndex != -1 && jpgIndex != -1) {
+      // If both indices are found, use the smallest index
+      endIndex = pngIndex < jpgIndex ? pngIndex : jpgIndex;
+    } else if (pngIndex != -1) {
+      // If only '.png' is found
+      endIndex = pngIndex;
+    } else if (jpgIndex != -1) {
+      // If only '.jpg' is found
+      endIndex = jpgIndex;
+    } else {
+      // Return the original URL if neither is found
+      return url;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -200,7 +221,7 @@ class TokenList extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: TokenDisplay(
-              logoUrl: holdings[index].token.logo,
+              logoUrl: cleanImageUrl(holdings[index].token.logo) ?? "",
               name: holdings[index].token.symbol,
               price: double.parse(holdings[index].usdValue).toStringAsFixed(2),
               profit: double.parse(holdings[index].totalProfit).toStringAsFixed(2),
@@ -236,9 +257,7 @@ class _StoryPageState extends State<StoryPage> {
                     pnlAmount: totalProfit, // Appropriately humorous or motivational text
                   ),
                   backgroundColor: Colors.black),
-              _storyItemInline(
-                  widget: TokenList(holdings: widget.holdings),
-                  backgroundColor: Colors.black)
+              _storyItemInline(widget: TokenList(holdings: widget.holdings), backgroundColor: Colors.black)
             ])));
   }
 
