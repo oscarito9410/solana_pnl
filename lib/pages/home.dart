@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:metaballs/metaballs.dart';
 import 'package:solana_pnl/contants.dart';
+import 'package:solana_pnl/network/holding_data.dart';
 import 'package:solana_pnl/network/wallet_data.dart';
 import 'package:solana_pnl/network/wallet_service.dart';
 import 'package:solana_pnl/pages/story.dart';
@@ -31,10 +34,17 @@ class _HomePageState extends State<HomePage> {
 
     var service = WalletService();
     WalletResponse? response = await service.fetchProfits(_inputCode);
-    if (response != null) {
+
+    HoldingResponse? holdingResponse = await service.fetchHoldings(_inputCode);
+    if (response != null && holdingResponse!= null) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) =>  StoryPage(walletData: response.data! )),
+        MaterialPageRoute(
+            builder: (context) => StoryPage(
+                walletData: response.data!,
+                holdings: holdingResponse.data.holdings
+            )
+        ),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

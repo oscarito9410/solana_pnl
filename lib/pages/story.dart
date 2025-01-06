@@ -1,12 +1,18 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:solana_pnl/component/TokenCard.dart';
+import 'package:solana_pnl/network/holding_data.dart';
 import 'package:solana_pnl/network/wallet_data.dart';
 import 'package:story_view/controller/story_controller.dart';
 import 'package:story_view/widgets/story_view.dart';
 
 class StoryPage extends StatefulWidget {
   final WalletData walletData;
+  final List<Holding> holdings;
 
-  const StoryPage({super.key, required this.walletData});
+  const StoryPage(
+      {super.key, required this.walletData, required this.holdings});
 
   @override
   State<StoryPage> createState() => _StoryPageState();
@@ -153,6 +159,37 @@ class PnLWrappedSlide extends StatelessWidget {
   }
 }
 
+class TokenList extends StatelessWidget {
+  final List<Holding> holdings;
+
+  const TokenList({super.key, required this.holdings});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        title: Text('Token list positions'),
+        backgroundColor: Colors.black,
+      ),
+      body: ListView.builder(
+        itemCount: holdings.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TokenDisplay(
+              logoUrl: holdings[index].token.logo,
+              name: holdings[index].token.symbol,
+              price: double.parse(holdings[index].usdValue).toStringAsFixed(2),
+              profit: double.parse(holdings[index].totalProfit).toStringAsFixed(2),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
 class _StoryPageState extends State<StoryPage> {
   final StoryController controller = StoryController();
 
@@ -173,6 +210,9 @@ class _StoryPageState extends State<StoryPage> {
                     pnlAmount: widget.walletData.totalProfit!, // Appropriately humorous or motivational text
                   ),
                   backgroundColor: Colors.black),
+              _storyItemInline(
+                  widget: TokenList(holdings: widget.holdings),
+                  backgroundColor: Colors.black)
             ])));
   }
 
