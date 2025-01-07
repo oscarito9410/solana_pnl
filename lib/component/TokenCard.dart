@@ -18,8 +18,8 @@ class TokenDisplay extends StatelessWidget {
         // Logo
         ImageNetwork(
           image: logoUrl,
-          height: 30,
-          width: 30,
+          height: 60,
+          width: 60,
           fitWeb: BoxFitWeb.cover,
           borderRadius: BorderRadius.circular(70),
         ),

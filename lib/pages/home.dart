@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:metaballs/metaballs.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:solana_pnl/contants.dart';
 import 'package:solana_pnl/network/holding_data.dart';
 import 'package:solana_pnl/network/wallet_data.dart';
@@ -18,6 +20,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String _inputCode = "";
 
+  final RoundedLoadingButtonController _btnController = RoundedLoadingButtonController();
+
   void _updateInputCode(String newCode) {
     setState(() {
       _inputCode = newCode;
@@ -29,24 +33,29 @@ class _HomePageState extends State<HomePage> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Please enter a wallet address.")),
       );
+      _btnController.error();
+      Timer(Duration(seconds: 1), () {
+        _btnController.reset();
+      });
       return;
     }
-
+    _btnController.start();
     var service = WalletService();
     WalletResponse? response = await service.fetchProfits(_inputCode);
 
     HoldingResponse? holdingResponse = await service.fetchHoldings(_inputCode);
-    if (response != null && holdingResponse!= null) {
+    if (response != null && holdingResponse != null) {
+      _btnController.success();
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => StoryPage(
-                walletData: response.data!,
-                holdings: holdingResponse.data.holdings
-            )
-        ),
+            builder: (context) => StoryPage(walletData: response.data!, holdings: holdingResponse.data.holdings)),
       );
     } else {
+      _btnController.error();
+      Timer(Duration(seconds: 1), () {
+        _btnController.reset();
+      });
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Failed to fetch wallet profits")),
       );
@@ -105,7 +114,7 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 20),
               InputField(onChanged: _updateInputCode),
               const SizedBox(height: 20),
-              ActionButton(onButtonPressed: _buttonPressed),
+              ActionButton(controller: _btnController, onButtonPressed: _buttonPressed),
             ],
           ),
         ),
@@ -134,19 +143,19 @@ class InputField extends StatelessWidget {
 }
 
 class ActionButton extends StatelessWidget {
+  final RoundedLoadingButtonController controller;
   final Function() onButtonPressed;
 
-  const ActionButton({super.key, required this.onButtonPressed});
+  const ActionButton({super.key, required this.onButtonPressed, required this.controller});
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return RoundedLoadingButton(
       onPressed: () => onButtonPressed(),
-      style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
-        textStyle: const TextStyle(fontSize: 18),
-        minimumSize: const Size(200, 60),
-      ),
+      controller: controller,
+      height: 60,
+      width: 200,
+      color: Colors.black,
       child: const Text(
         'REVIEW',
         style: TextStyle(fontFamily: pixelifyFont),
