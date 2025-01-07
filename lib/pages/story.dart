@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:solana_pnl/component/TokenCard.dart';
+import 'package:solana_pnl/component/token_card.dart';
 import 'package:solana_pnl/network/holding_data.dart';
 import 'package:solana_pnl/network/wallet_data.dart';
 import 'package:story_view/controller/story_controller.dart';
