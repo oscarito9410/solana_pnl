@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_network/image_network.dart';
 
 class TokenDisplay extends StatelessWidget {
   final String logoUrl;
@@ -6,12 +7,7 @@ class TokenDisplay extends StatelessWidget {
   final String price;
   final String profit;
 
-  const TokenDisplay(
-      {super.key,
-      required this.logoUrl,
-      required this.name,
-      required this.price,
-      required this.profit});
+  const TokenDisplay({super.key, required this.logoUrl, required this.name, required this.price, required this.profit});
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +16,12 @@ class TokenDisplay extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         // Logo
-        CircleAvatar(
-          // Adjust size to match the image
-          backgroundImage: NetworkImage(logoUrl),
+        ImageNetwork(
+          image: logoUrl,
+          height: 30,
+          width: 30,
+          fitWeb: BoxFitWeb.cover,
+          borderRadius: BorderRadius.circular(70),
         ),
         const SizedBox(width: 8), // Spacing between logo and text
         // Text details
@@ -61,9 +60,7 @@ class TokenDisplay extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
-                color: double.parse(profit) >= 0
-                    ? Colors.green
-                    : Colors.red, // Positive change in green
+                color: double.parse(profit) >= 0 ? Colors.green : Colors.red, // Positive change in green
               ),
             ),
           ],
