@@ -57,7 +57,7 @@ class TokenDisplay extends StatelessWidget {
             ),
             // Percentage change
             Text(
-              profit,
+              double.parse(profit) >= 0 ? "+" "\$$profit" : "\$$profit",
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
